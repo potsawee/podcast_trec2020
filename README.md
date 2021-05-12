@@ -77,10 +77,9 @@ If you want to train BART with filtered data:
 
 Trained Weights
 -----------------------------------------
-OneDrive link (~7.5GB): 
-1. If you are in Cambridge (most likely not) [Cambridge Access Link](https://universityofcambridgecloud-my.sharepoint.com/:u:/g/personal/pm574_cam_ac_uk/EWzdmdaYVJdDpzxpvXX6KRUBnQvbmZBbhpSQQ2F-vXJlqg)
-2. For external people, please email me <pm574@cam.ac.uk> and I will add your email to the sharing list. 
-Sorry for the inconvenice, the file is too large that I have to host it on the Cambridge OneDrive, but it doesn't allow me to share with link.  
+Download links (~8GB) - same file, any option that works for you (if none of the links work, please email me <pm574@cam.ac.uk>): 
+
+[[Google Drive]](https://drive.google.com/file/d/1w8Hc4ZurjDc3O_gYKCe5EMSkKmce9kRi/view?usp=sharing) [[Cambridge OneDrive]](https://universityofcambridgecloud-my.sharepoint.com/:u:/g/personal/pm574_cam_ac_uk/EWzdmdaYVJdDpzxpvXX6KRUBnQvbmZBbhpSQQ2F-vXJlqg) 
 
 **BART**
 
