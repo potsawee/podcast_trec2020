@@ -1,3 +1,4 @@
+import os
 from collections import OrderedDict
 from nltk import tokenize
 import torch
@@ -174,17 +175,13 @@ class HierTokenizer(object):
 
 class HierarchicalModel(object):
     def __init__(self, model_name, model_step=None, use_gpu=False):
-        # if model_name not in ["HIER", "HIERDIV", "AMI_MT_DIV", "SPOTIFY_short", "SPOTIFY_long"]:
-        #     raise ValueError("model name not exist")
-
-
-        if model_name == "SPOTIFY_short":
-            self.model_path = "/home/alta/summary/pm574/summariser1/lib/trained_models_spotify/HGRUV5DIV_SPOTIFY_JUNE18_v4-step{}.pt".format(model_step)
+        if model_name == "SPOTIFY_long":
+            self.model_path = "/home/alta/summary/pm574/podcast_sum0/lib/released_weights/HIERMODEL_640_50_step30000.pt"
+            exist = os.path.isfile(self.model_path)
+            if exist == False:
+                raise Exception("Model Checkpoint ({}) does not exist".format(self.model_path))
             self.load_option = 2
-
-        elif model_name == "SPOTIFY_long":
-            self.model_path = "/home/alta/summary/pm574/summariser1/lib/trained_models_spotify/HGRUV5DIV_SPOTIFY_JUNE18_v3-step{}.pt".format(model_step)
-            self.load_option = 2
+            print("Hier Model checkpoint at:", self.model_path)
 
         else:
             self.model_path = model_name

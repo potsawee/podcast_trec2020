@@ -9,12 +9,7 @@ from tqdm import tqdm
 
 from data.processor import PodcastEpisode
 from transformers import BartTokenizer
-
-# ----- Hierchical Repo (for filtering) ----- #
-HIER_REPO = '/home/alta/summary/pm574/summariser1/'
-sys.path.insert(0, HIER_REPO)
 from hier_model import Batch, HierTokenizer, HierarchicalModel
-# ------------------------------------------- #
 
 if torch.cuda.is_available():
     torch_device = 'cuda'
@@ -25,17 +20,11 @@ else:
 
 DATA_PATH    = "/home/alta/summary/pm574/podcast_sum0/lib/test_data/podcast_testset.bin"
 
-MAX_BART_LEN   = 1040
+MAX_BART_LEN   = 1024
 MAX_INPUT_SENT = 1000
 MAX_SENT_WORD  = 50
-
-# HIER_MODEL   = "SPOTIFY_long"
-# MODEL_STEP   = 30000
-# print("HIER_MODEL:", HIER_MODEL)
-# print("MODEL_STEP:", MODEL_STEP)
-
-MODEL_NAME = "HIER_EncDec_DEC3_v1-step30000"
-MODEL_PATH = "/home/alta/summary/pm574/summariser2/lib/trained_models/{}.pt".format(MODEL_NAME)
+HIER_MODEL   = "SPOTIFY_long"
+MODEL_STEP   = 30000
 
 def filtering_data(start_id, end_id):
     bart_tokenizer = BartTokenizer.from_pretrained('facebook/bart-large')
@@ -46,8 +35,7 @@ def filtering_data(start_id, end_id):
 
     hier_tokenizer = HierTokenizer()
     hier_tokenizer.set_len(num_utterances=MAX_INPUT_SENT, num_words=MAX_SENT_WORD)
-    # hier_model = HierarchicalModel(HIER_MODEL, model_step=MODEL_STEP, use_gpu=use_gpu)
-    hier_model = HierarchicalModel(MODEL_PATH, use_gpu=use_gpu)
+    hier_model = HierarchicalModel(HIER_MODEL, use_gpu=use_gpu)
 
     ids = [x for x in range(start_id, end_id)]
     random.shuffle(ids)
@@ -55,8 +43,7 @@ def filtering_data(start_id, end_id):
     for i in ids:
         # check if the file exist or not
         # DECODER_DIR = temp folder
-        # out_path = "/home/alta/summary/pm574/podcast_sum0/lib/test_data/filtered_hier30k_train3954/decode/{}_filtered_transcription.txt".format(i)
-        out_path = "/home/alta/summary/pm574/summariser2/lib/real_filtering/testset/{}/decode/{}_filtered_transcription.txt".format(MODEL_NAME, i)
+        out_path = "/home/alta/summary/pm574/podcast_sum0/lib/test_data/filtered_hier30k/decode/{}_filtered_transcription.txt".format(i)
         exist = os.path.isfile(out_path)
         if exist:
             print("id {}: already exists".format(i))
@@ -110,12 +97,12 @@ def combine():
     print("len(podcasts) = {}".format(len(podcasts)))
 
     for i in tqdm(range(len(podcasts))):
-        out_path = "/home/alta/summary/pm574/podcast_sum0/lib/test_data/filtered_hier30k_train3954/decode/{}_filtered_transcription.txt".format(i)
+        out_path = "/home/alta/summary/pm574/podcast_sum0/lib/test_data/filtered_hier30k/decode/{}_filtered_transcription.txt".format(i)
         with open(out_path, 'r') as f:
             x = f.read()
         podcasts[i].transcription = x
 
-    save_filtered_data_path = "/home/alta/summary/pm574/podcast_sum0/lib/test_data/filtered_hier30k_train3954/podcast_testset.bin"
+    save_filtered_data_path = "/home/alta/summary/pm574/podcast_sum0/lib/test_data/filtered_hier30k/podcast_testset.bin"
     with open(save_filtered_data_path, "wb") as f:
         pickle.dump(podcasts, f)
 

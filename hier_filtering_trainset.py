@@ -31,7 +31,7 @@ else:
 PODCAST_SET  = 10 # train=0,1,2,3,...,9, valid=10
 DATA_PATH    = "/home/alta/summary/pm574/podcast_sum0/lib/data/podcast_set{}.bin".format(PODCAST_SET)
 
-MAX_BART_LEN   = 501
+MAX_BART_LEN   = 1024
 MAX_INPUT_SENT = 1000
 MAX_SENT_WORD  = 50
 HIER_MODEL   = "SPOTIFY_long"
@@ -50,7 +50,7 @@ def filtering_data(start_id, end_id):
 
     hier_tokenizer = HierTokenizer()
     hier_tokenizer.set_len(num_utterances=MAX_INPUT_SENT, num_words=MAX_SENT_WORD)
-    hier_model = HierarchicalModel(HIER_MODEL, model_step=MODEL_STEP, use_gpu=use_gpu)
+    hier_model = HierarchicalModel(HIER_MODEL, use_gpu=use_gpu)
 
     ids = [x for x in range(start_id, end_id)]
     random.shuffle(ids)
